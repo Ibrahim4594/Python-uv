@@ -1,199 +1,101 @@
-Highlights
-🚀 A single tool to replace pip, pip-tools, pipx, poetry, pyenv, twine, virtualenv, and more.
-⚡️ 10-100x faster than pip.
-🗂️ Provides comprehensive project management, with a universal lockfile.
-❇️ Runs scripts, with support for inline dependency metadata.
-🐍 Installs and manages Python versions.
-🛠️ Runs and installs tools published as Python packages.
-🔩 Includes a pip-compatible interface for a performance boost with a familiar CLI.
-🏢 Supports Cargo-style workspaces for scalable projects.
-💾 Disk-space efficient, with a global cache for dependency deduplication.
-⏬ Installable without Rust or Python via curl or pip.
-🖥️ Supports macOS, Linux, and Windows.
-uv is backed by Astral, the creators of Ruff.
+# Python Repository Template
 
-Installation
-Install uv with our standalone installers:
+The ultimate 2025 Python repository template. Simple, fast, customizable, and ready to use.
 
-# On macOS and Linux.
-curl -LsSf https://astral.sh/uv/install.sh | sh
-# On Windows.
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-Or, from PyPI:
+---
+I wrote a blog post about this template! Check it out [here](https://giovannigiacometti.github.io/posts/python-template/)
 
-# With pip.
-pip install uv
-# Or pipx.
-pipx install uv
-If installed via the standalone installer, uv can update itself to the latest version:
+## 🎯 Core Features
 
-uv self update
-See the installation documentation for details and alternative installation methods.
+### Development Tools
 
-Documentation
-uv's documentation is available at docs.astral.sh/uv.
+- 📦 UV - Ultra-fast Python package manager
+- 🚀 Just - Modern command runner with powerful features
+- 💅 Ruff - Lightning-fast linter and formatter
+- 🔍 Mypy - Static type checker
+- 🧪 Pytest - Testing framework with fixtures and plugins
+- 🧾 Loguru - Python logging made simple
 
-Additionally, the command line reference documentation can be viewed with uv help.
+### Infrastructure
 
-Features
-Projects
-uv manages project dependencies and environments, with support for lockfiles, workspaces, and more, similar to rye or poetry:
+- 🛫 Pre-commit hooks
+- 🐳 Docker support with multi-stage builds and distroless images
+- 🔄 GitHub Actions CI/CD pipeline
 
-$ uv init example
-Initialized project `example` at `/home/user/example`
 
-$ cd example
+## Usage
 
-$ uv add ruff
-Creating virtual environment at: .venv
-Resolved 2 packages in 170ms
-   Built example @ file:///home/user/example
-Prepared 2 packages in 627ms
-Installed 2 packages in 1ms
- + example==0.1.0 (from file:///home/user/example)
- + ruff==0.5.0
+The template is based on [UV](https://docs.astral.sh/) as package manager and [Just](https://github.com/casey/just) as command runner. You need to have both installed in your system to use this template.
 
-$ uv run ruff check
-All checks passed!
+Once you have those, you can just run
 
-$ uv lock
-Resolved 2 packages in 0.33ms
+```bash
+just dev-sync
+```
 
-$ uv sync
-Resolved 2 packages in 0.70ms
-Audited 1 package in 0.02ms
-See the project documentation to get started.
+to create a virtual environment and install all the dependencies, including the development ones. If instead you want to build a "production-like" environment, you can run
 
-uv also supports building and publishing projects, even if they're not managed with uv. See the publish guide to learn more.
+```bash
+just prod-sync
+```
 
-Scripts
-uv manages dependencies and environments for single-file scripts.
+In both cases, all extra dependencies will be installed (notice that the current pyproject.toml file has no extra dependencies).
 
-Create a new script and add inline metadata declaring its dependencies:
+You also need to install the pre-commit hooks with:
 
-$ echo 'import requests; print(requests.get("https://astral.sh"))' > example.py
+```bash
+just install-hooks
+```
 
-$ uv add --script example.py requests
-Updated `example.py`
-Then, run the script in an isolated virtual environment:
+### Formatting, Linting and Testing
 
-$ uv run example.py
-Reading inline script metadata from: example.py
-Installed 5 packages in 12ms
-<Response [200]>
-See the scripts documentation to get started.
+You can configure Ruff by editing the `.ruff.toml` file. It is currently set to the default configuration.
 
-Tools
-uv executes and installs command-line tools provided by Python packages, similar to pipx.
+Format your code:
 
-Run a tool in an ephemeral environment using uvx (an alias for uv tool run):
+```bash
+just format
+```
 
-$ uvx pycowsay 'hello world!'
-Resolved 1 package in 167ms
-Installed 1 package in 9ms
- + pycowsay==0.0.0.2
-  """
+Run linters (ruff and mypy):
 
-  ------------
-< hello world! >
-  ------------
-   \   ^__^
-    \  (oo)\_______
-       (__)\       )\/\
-           ||----w |
-           ||     ||
-Install a tool with uv tool install:
+```bash
+just lint
+```
 
-$ uv tool install ruff
-Resolved 1 package in 6ms
-Installed 1 package in 2ms
- + ruff==0.5.0
-Installed 1 executable: ruff
+Run tests:
 
-$ ruff --version
-ruff 0.5.0
-See the tools documentation to get started.
+```bash
+just test
+```
 
-Python versions
-uv installs Python and allows quickly switching between versions.
+Do all of the above:
 
-Install multiple Python versions:
+```bash
+just validate
+```
 
-$ uv python install 3.10 3.11 3.12
-Searching for Python versions matching: Python 3.10
-Searching for Python versions matching: Python 3.11
-Searching for Python versions matching: Python 3.12
-Installed 3 versions in 3.42s
- + cpython-3.10.14-macos-aarch64-none
- + cpython-3.11.9-macos-aarch64-none
- + cpython-3.12.4-macos-aarch64-none
-Download Python versions as needed:
+### Executing
 
-$ uv venv --python 3.12.0
-Using Python 3.12.0
-Creating virtual environment at: .venv
-Activate with: source .venv/bin/activate
+The code is a simple hello world example, which just requires a number as input. It will output the sum of the provided number with a random number.
+You can run the code with:
 
-$ uv run --python pypy@3.8 -- python --version
-Python 3.8.16 (a9dbdca6fc3286b0addd2240f11d97d8e8de187a, Dec 29 2022, 11:45:30)
-[PyPy 7.3.11 with GCC Apple LLVM 13.1.6 (clang-1316.0.21.2.5)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
->>>>
-Use a specific Python version in the current directory:
+```bash
+just run 5
+```
 
-$ uv python pin 3.11
-Pinned `.python-version` to `3.11`
-See the Python installation documentation to get started.
+### Docker
 
-The pip interface
-uv provides a drop-in replacement for common pip, pip-tools, and virtualenv commands.
+The template includes a multi stage Dockerfile, which produces an image with the code and the dependencies installed. You can build the image with:
 
-uv extends their interfaces with advanced features, such as dependency version overrides, platform-independent resolutions, reproducible resolutions, alternative resolution strategies, and more.
+```bash
+just dockerize
+```
 
-Migrate to uv without changing your existing workflows — and experience a 10-100x speedup — with the uv pip interface.
+### Github Actions
 
-Compile requirements into a platform-independent requirements file:
+The template includes two Github Actions workflows.
 
-$ uv pip compile docs/requirements.in \
-   --universal \
-   --output-file docs/requirements.txt
-Resolved 43 packages in 12ms
-Create a virtual environment:
+The first one runs tests and linters on every push on the main and dev branches. You can find the workflow file in `.github/workflows/main-list-test.yml`.
 
-$ uv venv
-Using Python 3.12.3
-Creating virtual environment at: .venv
-Activate with: source .venv/bin/activate
-Install the locked requirements:
-
-$ uv pip sync docs/requirements.txt
-Resolved 43 packages in 11ms
-Installed 43 packages in 208ms
- + babel==2.15.0
- + black==24.4.2
- + certifi==2024.7.4
- ...
-See the pip interface documentation to get started.
-
-Platform support
-See uv's platform support document.
-
-Versioning policy
-See uv's versioning policy document.
-
-Contributing
-We are passionate about supporting contributors of all levels of experience and would love to see you get involved in the project. See the contributing guide to get started.
-
-FAQ
-How do you pronounce uv?
-It's pronounced as "you - vee" (/juː viː/)
-
-How should I stylize uv?
-Just "uv", please. See the style guide for details.
-
-Acknowledgements
-uv's dependency resolver uses PubGrub under the hood. We're grateful to the PubGrub maintainers, especially Jacob Finkelman, for their support.
-
-uv's Git implementation is based on Cargo.
-
-Some of uv's optimizations are inspired by the great work we've seen in pnpm, Orogene, and Bun. We've also learned a lot from Nathaniel J. Smith's Posy and adapted its trampoline for Windows support.
+The second one is triggered on every tag push and can also be triggered manually. It builds the distribution and uploads it to PyPI. You can find the workflow file in `.github/workflows/publish.yaml`.
