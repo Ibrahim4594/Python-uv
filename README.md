@@ -1,4 +1,6 @@
-https://www.crewai.com/
+Python UV: The Ultimate Guide to the Fastest Python Package Manager : https://www.datacamp.com/tutorial/python-uv
+
+Official Docs: https://docs.astral.sh/uv/
 
 Cursor Rules:
 When working in Python always use UV as package manager.
