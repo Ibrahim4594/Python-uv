@@ -1,4 +1,3 @@
-Python UV
 Python UV: The Ultimate Guide to the Fastest Python Package Manager
 
 Official Docs
