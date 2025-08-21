@@ -1,14 +1,4 @@
-Python UV: The Ultimate Guide to the Fastest Python Package Manager
-
-Official Docs
-
-Running scripts
-
-Working on projects
-
-CLI Reference
-
-Watch: Python Setup, Simplified: A Complete "uv" Tutorial!
+https://www.crewai.com/
 
 Cursor Rules:
 When working in Python always use UV as package manager.
